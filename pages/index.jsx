@@ -6,7 +6,7 @@ import styles from '../styles/Home.module.css'
 
 export default function Home() {
   // Contract Address & ABI
-  const contractAddress = "0xDBa03676a2fBb6711CB652beF5B7416A53c1421D";
+  const contractAddress = "0x3d97Ba87dE27F66F1184f00aF63c5D19E842111B";
   const contractABI = abi.abi;
 
   // Component state
@@ -28,7 +28,7 @@ export default function Home() {
     try {
       const { ethereum } = window;
 
-      const accounts = await ethereum.request({method: 'eth_accounts'})
+      const accounts = await ethereum.request({ method: 'eth_accounts' })
       console.log("accounts: ", accounts);
 
       if (accounts.length > 0) {
@@ -44,7 +44,7 @@ export default function Home() {
 
   const connectWallet = async () => {
     try {
-      const {ethereum} = window;
+      const { ethereum } = window;
 
       if (!ethereum) {
         console.log("please install MetaMask");
@@ -62,7 +62,7 @@ export default function Home() {
 
   const buyCoffee = async () => {
     try {
-      const {ethereum} = window;
+      const { ethereum } = window;
 
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum, "any");
@@ -77,7 +77,7 @@ export default function Home() {
         const coffeeTxn = await buyMeACoffee.buyCoffee(
           name ? name : "anon",
           message ? message : "Enjoy your coffee!",
-          {value: ethers.utils.parseEther("0.001")}
+          { value: ethers.utils.parseEther("0.001") }
         );
 
         await coffeeTxn.wait();
@@ -107,7 +107,7 @@ export default function Home() {
           contractABI,
           signer
         );
-        
+
         console.log("fetching memos from the blockchain..");
         const memos = await buyMeACoffee.getMemos();
         console.log("fetched!");
@@ -115,12 +115,12 @@ export default function Home() {
       } else {
         console.log("Metamask is not connected");
       }
-      
+
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     let buyMeACoffee;
     isWalletConnected();
@@ -141,7 +141,7 @@ export default function Home() {
       ]);
     };
 
-    const {ethereum} = window;
+    const { ethereum } = window;
 
     // Listen for new memo events.
     if (ethereum) {
@@ -162,42 +162,42 @@ export default function Home() {
       }
     }
   }, []);
-  
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Buy Albert a Coffee!</title>
+        <title>Buy Me a Coffee!</title>
         <meta name="description" content="Tipping site" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Buy Albert a Coffee!
-        </h1>
-        
+        <p className={styles.title}>
+          Buy Me a Coffee!
+        </p>
+
         {currentAccount ? (
           <div>
             <form>
-              <div class="formgroup">
+              <div className="formgroup">
                 <label>
                   Name
                 </label>
-                <br/>
-                
+                <br />
+
                 <input
                   id="name"
                   type="text"
                   placeholder="anon"
                   onChange={onNameChange}
-                  />
+                />
               </div>
-              <br/>
-              <div class="formgroup">
+              <br />
+              <div className="formgroup">
                 <label>
-                  Send Albert a message
+                  Send Me a message
                 </label>
-                <br/>
+                <br />
 
                 <textarea
                   rows={3}
@@ -227,8 +227,8 @@ export default function Home() {
 
       {currentAccount && (memos.map((memo, idx) => {
         return (
-          <div key={idx} style={{border:"2px solid", "border-radius":"5px", padding: "5px", margin: "5px"}}>
-            <p style={{"font-weight":"bold"}}>"{memo.message}"</p>
+          <div key={idx} style={{ border: "2px solid", "border-radius": "5px", padding: "5px", margin: "5px" }}>
+            <p style={{ "font-weight": "bold" }}>"{memo.message}"</p>
             <p>From: {memo.name} at {memo.timestamp.toString()}</p>
           </div>
         )
